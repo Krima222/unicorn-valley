@@ -1,9 +1,9 @@
-import './App.css';
+// import './App.css';
 import FormPage from './component/pages/formPage/formPage';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Registration from './component/registration/registration';
 import Login from './component/login/login'
-import Header from './component/header/header';
+import Homepage from './component/pages/homePage/homePage';
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
                 <Route path='registration' element={<Registration/>}/>
                 <Route path='login' element={<Login/>}/>
             </Route>
-            <Route path='/homepage' element={<Header/>}/>
+            <Route path='/homepage' element={<Homepage/>}/>
         </Routes>
     </Router>
   );
