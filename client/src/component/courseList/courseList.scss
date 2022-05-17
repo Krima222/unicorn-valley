@@ -1,0 +1,39 @@
+.course-list {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+    overflow: auto;
+    margin: 0;
+    &__item {
+        margin: 15px 10px;
+        width: 270px;
+        height: 208px;
+        border-radius: 10px;
+        background-color: gray;
+        list-style: none;
+        overflow: hidden;
+    }
+    &__link {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+    &__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
+        pointer-events: none; //this is the way(
+    }
+    &::-webkit-scrollbar {
+        width: 18px;
+    }
+    &::-webkit-scrollbar-track {
+        background: none;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: none;
+        border-radius: 25px;
+        border: 1px solid #767B7E;
+    }
+}
