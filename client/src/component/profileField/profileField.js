@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import './profileField.scss';
 
@@ -8,7 +8,6 @@ const ProfileField = (props) => {
     return (
         <div className="profile-field__wrapper">
             <div className="profile-field__btn-wrapper">
-                {/* <Link to="courses"></Link> */}
                 <NavLink
                     to="puzzle"
                     className={({isActive}) => isActive ? activeClazz : clazz}

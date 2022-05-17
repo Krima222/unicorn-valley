@@ -1,6 +1,6 @@
+import { Outlet, NavLink, useLocation } from 'react-router-dom'
+
 import './formPage.scss'
-import { Outlet } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
 
 const FormPage = () => {
     const {pathname} = useLocation();
@@ -11,8 +11,20 @@ const FormPage = () => {
         <div className="form-modal">
             <div className="form-dialog">
                 <div className="form-dialog__button-wrapper">
-                    <button className="form-dialog__button form-dialog__button_active">Вход</button>
-                    <button className="form-dialog__button">Регистрация</button>
+                    <NavLink
+                        to="login"
+                        className={({isActive}) => isActive ? "form-dialog__link form-dialog__link_active" : "form-dialog__link"}
+                    >
+                        <div className="form-dialog__button-bg"/>
+                        <button className="form-dialog__button">Вход</button>
+                    </NavLink>
+                    <NavLink
+                        to="registration"
+                        className={({isActive}) => isActive ? "form-dialog__link form-dialog__link_active" : "form-dialog__link"}
+                    >
+                        <div className="form-dialog__button-bg"/>
+                        <button className="form-dialog__button">Регистрация</button>
+                    </NavLink>
                 </div>
                 <form className="form-form">
                     <Outlet/>
