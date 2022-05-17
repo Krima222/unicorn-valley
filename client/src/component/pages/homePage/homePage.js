@@ -10,7 +10,7 @@ const Homepage = () => {
             <div className="homepage">
                 <div className="homepage-container">
                     <UserInfo/>
-                    <ProfileField className="profile-field"/>
+                    <ProfileField/>
                 </div>
             </div>
         </>

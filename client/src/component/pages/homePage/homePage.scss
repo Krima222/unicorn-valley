@@ -1,15 +1,12 @@
 .homepage-container {
     max-width: 1200px;
-    margin-top: 87px;
-    padding: 0 100px;
+    margin: 0 auto;
     display: flex;
-}
-
-.profile-field {
-
+    padding-top: 87px;
 }
 
 .homepage {
+    min-height: 100vh;
     background: rgb(50,192,206);
     background: linear-gradient(90deg, rgba(50,192,206,1) 0%, rgba(82,165,234,1) 100%, rgba(132,250,176,1) 100%);
 }

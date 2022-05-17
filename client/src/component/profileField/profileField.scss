@@ -1,5 +1,4 @@
 .profile-field {
-
     &__wrapper {
         position: relative;
         width: 973px;
@@ -28,5 +27,6 @@
         border: 1px solid #000;
         border-radius: 0 0 20px 20px;
         background-color: rgba(255, 255, 255, 0.9);
+        height: 100%;
     }
 }
