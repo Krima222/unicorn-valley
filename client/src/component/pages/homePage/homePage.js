@@ -4,6 +4,7 @@ import Header from '../../header/header';
 import UserInfo from '../../userInfo/userInfo';
 import ProfileField from '../../profileField/profileField';
 import CourseList from '../../courseList/courseList';
+import ProfileSettings from '../../profileSettings/profileSettings'
 
 import './homePage.scss';
 
@@ -33,6 +34,7 @@ const Homepage = () => {
                     <ProfileField>
                         <Routes>
                             <Route path='courses' element={<CourseList courses={courses}/>}/>
+                            <Route path='settings' element={<ProfileSettings/>}/>
                         </Routes>
                     </ProfileField>
                 </div>

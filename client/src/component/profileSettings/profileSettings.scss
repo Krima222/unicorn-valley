@@ -1,0 +1,43 @@
+.avatar-list {
+    background-color: #9DDAE9;
+    box-shadow:3px 3px 3px darkgrey;
+    margin-left: 20px;
+    padding: 10px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-around;
+    &__item {
+        height: 150px;
+        width: 150px;
+        border-radius: 83px;
+    }
+}
+
+.change-password {
+    margin: 20px 0 20px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    &__input {
+        &:first-child {
+            grid-column: span 2;
+            text-align: center;
+        }
+        padding: 23px;
+        border-radius: 10px;
+        border: 1px solid rgba($color: #000, $alpha: .5);
+        background-color: #9DDAE9;
+        box-shadow:3px 3px 3px darkgrey;
+    }
+}
+
+.change-button {
+    display: block;
+    background: rgb(77,171,116);
+    background: linear-gradient(90deg, rgba(77,171,116,1) 0%, rgba(121,252,148,1) 100%);
+    padding: 20px 41px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 3px 3px 3px darkgrey;;
+    margin-left: auto;
+}
