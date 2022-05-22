@@ -1,6 +1,6 @@
-import {secret} from './config'
+import {secret} from './config.js'
 
-export default function (req, res, next) {
+export const authMiddleware = function (req, res, next) {
     if(req.method === 'OPTIONS') {
         next()
     }

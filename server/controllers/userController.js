@@ -50,7 +50,7 @@ export const login = async (req, res) => {
     }
 }
 
-export const getUsers = (req, res) => {
+export const getUsers = async (req, res) => {
     try {
         const users = await User.find()
         res.json(users)
