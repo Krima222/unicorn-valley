@@ -2,7 +2,7 @@ import User from '../models/user.js'
 import bcrypt from 'bcryptjs'
 import { validationResult } from 'express-validator'
 import jwt from 'jsonwebtoken'
-import {secret} from './config'
+import {secret} from '../config.js'
 
 const generateAccessToken = (id) => {
     const payload = {
@@ -47,5 +47,14 @@ export const login = async (req, res) => {
     } catch (e) {
         console.log(e)
         res.status(400).json({message: 'Login error'})
+    }
+}
+
+export const getUsers = (req, res) => {
+    try {
+        const users = await User.find()
+        res.json(users)
+    } catch (e) {
+        console.log(e)
     }
 }
