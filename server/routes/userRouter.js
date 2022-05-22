@@ -4,7 +4,7 @@ import { registrate } from '../controllers/userController.js';
 import { login } from "../controllers/userController.js";
 import { getUsers } from "../controllers/userController.js";
 import { check } from 'express-validator'
-import {authMiddleware} from '../middleware.js'
+import { authMiddleware } from '../middlewares/authMiddleware.js'
 
 const userRouter = express.Router();
 
