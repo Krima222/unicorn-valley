@@ -62,6 +62,7 @@ const FormPage = () => {
                     setError(message)
                 } else {
                     setToken('token', token)
+                    setError('')
                     resetForm()
                 }
             } else {
@@ -77,6 +78,7 @@ const FormPage = () => {
                     setError(message)
                 } else {
                     setToken('token', token)
+                    setError('')
                     resetForm()
                 }
             }
