@@ -9,8 +9,8 @@ import Homepage from './component/pages/homePage/homePage';
 import './app.scss';
 
 function App() {
-  const [token] = useCookies('token');
-
+  const [{token}] = useCookies('token');
+    console.log(token)
   useEffect(() => {
     fetch('http://localhost:5000/autification', {
         headers: {

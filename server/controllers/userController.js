@@ -83,3 +83,20 @@ export const updateGameData = async (req, res) => {
         res.send(JSON.stringify({title: 'Дэнис, ошибка!!', message: e.message}))
     }
 }
+
+export const autificationUser = async (req, res) => {
+    try {
+        const token = req.headers.authorization.split(' ')[1]
+        if (!token) {
+            return res.status(403).json({message: 'Пользователь не авторизован'})
+        }
+        const {id} = jwt.verify(token, secret)
+        const user = await User.findById(id)
+        if (!user) {
+            return res.status(403).json({message: 'Пользователя с таким id не существует'})
+        }
+        res.json({id})
+    } catch (e) {
+        res.send(JSON.stringify({title: 'Ошибка при получении токена', message: e.message}))
+    }
+}

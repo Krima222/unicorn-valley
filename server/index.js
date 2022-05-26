@@ -1,7 +1,6 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
-import cookieParser from 'cookie-parser'
 import userRouter from './routes/userRouter.js'
 import testRouter from './routes/testRouter.js'
 
@@ -18,7 +17,6 @@ mongoose.connect(db, {useNewUrlParser: true, useUnifiedTopology: true})
         app.use(express.urlencoded({extended: false}))
         app.use(express.json())
         app.use(cors())
-        app.use(cookieParser())
         app.use(userRouter)
         app.use(testRouter)
     })

@@ -1,6 +1,6 @@
 import express from "express";
 
-import { registrate, login, getUsers, getGameData, updateGameData } from '../controllers/userController.js';
+import { registrate, login, getUsers, getGameData, updateGameData, autificationUser } from '../controllers/userController.js';
 import { check } from 'express-validator';
 import { authMiddleware } from '../middlewares/authMiddleware.js';
 
@@ -16,5 +16,6 @@ userRouter.get('/users', authMiddleware, getUsers);
 
 userRouter.get('/game', getGameData);
 userRouter.put('/game', updateGameData);
+userRouter.get('/autification', autificationUser)
 
 export default userRouter;
