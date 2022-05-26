@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react'
 import { Outlet, NavLink, useLocation } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
+import { useCookies } from 'react-cookie'
 
 import './formPage.scss'
 
 const FormPage = () => {
+    const [token, setToken] = useCookies('token')
     const [error, setError] = useState('')
     const {pathname} = useLocation()
 
@@ -55,10 +57,11 @@ const FormPage = () => {
                     },
                     body: JSON.stringify({nickname, password})
                 })
-                const {message} = await res.json()
+                const {token, message} = await res.json()
                 if (!res.ok) {
                     setError(message)
                 } else {
+                    setToken('token', token)
                     resetForm()
                 }
             } else {
@@ -69,10 +72,11 @@ const FormPage = () => {
                     },
                     body: JSON.stringify({nickname, email, password})
                 })
-                const {message} = await res.json()
+                const {token, message} = await res.json()
                 if (!res.ok) {
                     setError(message)
                 } else {
+                    setToken('token', token)
                     resetForm()
                 }
             }
