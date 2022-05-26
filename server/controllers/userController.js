@@ -26,7 +26,8 @@ export const registrate = async (req, res) => {
         const user = new User({nickname, email, password: hashPassword})
         await user.save()
         console.log(`Пользователь ${nickname} зарегестрирован`);
-        return res.json({message: 'Пользователь успешно зарегестрирован'})
+        const token = generateAccessToken(user._id)
+        res.send(JSON.stringify({token}))
     } catch (e) {
         res.status(400).json({message: 'ошибка при регистрации ' + e.name})
     }
@@ -44,7 +45,8 @@ export const login = async (req, res) => {
             return res.status(400).json({message: `Введён неверный пароль`})
         }
         const token = generateAccessToken(user._id)
-        return res.json({token})
+        res.cookie('token', token, {maxAge: 259200})
+        res.send(JSON.stringify({token}))
     } catch (e) {
         console.log(e)
         res.status(400).json({message: 'ошибка при авторизации ' + e.name})
