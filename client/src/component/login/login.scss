@@ -1,12 +1,21 @@
-.registration-form {
-    &__input {
+.form-form {
+    & > &__input {
         width: 100%;
         box-sizing: border-box;
         border-radius: 10px;
         padding: 10px;
         background: none;
         border: 1px solid rgba($color: #000, $alpha: .5);
-        margin-top: 21px;
+        margin-top: 10px;
+    }
+    & > &__input ~ &__input {
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 10px;
+        padding: 10px;
+        background: none;
+        border: 1px solid rgba($color: #000, $alpha: .5);
+        margin-top: 20px;
     }
     &__span {
         display: block;

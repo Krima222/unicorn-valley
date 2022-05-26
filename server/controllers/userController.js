@@ -25,9 +25,10 @@ export const registrate = async (req, res) => {
         const hashPassword = bcrypt.hashSync(password, 7);
         const user = new User({nickname, email, password: hashPassword})
         await user.save()
+        console.log(`Пользователь ${nickname} зарегестрирован`);
         return res.json({message: 'Пользователь успешно зарегестрирован'})
     } catch (e) {
-        res.status(400).json({message: 'Registration error'})
+        res.status(400).json({message: 'ошибка при регистрации ' + e.name})
     }
 }
 
@@ -46,7 +47,7 @@ export const login = async (req, res) => {
         return res.json({token})
     } catch (e) {
         console.log(e)
-        res.status(400).json({message: 'Login error'})
+        res.status(400).json({message: 'ошибка при авторизации ' + e.name})
     }
 }
 
