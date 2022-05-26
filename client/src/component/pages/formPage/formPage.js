@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Outlet, NavLink, useLocation } from 'react-router-dom'
+import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import { useCookies } from 'react-cookie'
@@ -10,12 +10,28 @@ const FormPage = () => {
     const [token, setToken] = useCookies('token')
     const [error, setError] = useState('')
     const {pathname} = useLocation()
-
-    const buttonText = pathname === '/form/login' ? 'Войти' : 'Зарегестрироваться'
+    const navigate = useNavigate()
 
     useEffect(() => {
         setError('')
     }, [pathname])
+
+    const authReg = async (type, {nickname, email, password}) => {
+        const res = await fetch(`http://localhost:5000/${type}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({nickname, email: type === 'registration' ? email : null, password})
+        })
+        const {token, message} = await res.json()
+        if (res.ok) {
+            setToken('token', token, { path: '/' })
+            navigate('/homepage')
+        } else {
+            setError(message)
+        }
+    }
 
     const validationSchema = pathname === '/form/login' ?
         yup.object({
@@ -48,39 +64,18 @@ const FormPage = () => {
             confirmPassword: ''
         },
         validationSchema,
-        onSubmit: async ({nickname, email, password}, {resetForm}) => {
+        onSubmit: ({nickname, email, password}) => {
             if (pathname === '/form/login') {
-                const res = await fetch('http://localhost:5000/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json;charset=utf-8'
-                    },
-                    body: JSON.stringify({nickname, password})
+                authReg('login', {
+                    nickname,
+                    password
                 })
-                const {token, message} = await res.json()
-                if (!res.ok) {
-                    setError(message)
-                } else {
-                    setToken('token', token, { path: '/' })
-                    setError('')
-                    resetForm()
-                }
             } else {
-                const res = await fetch('http://localhost:5000/registration', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json;charset=utf-8'
-                    },
-                    body: JSON.stringify({nickname, email, password})
+                authReg('registration', {
+                    nickname,
+                    email,
+                    password
                 })
-                const {token, message} = await res.json()
-                if (!res.ok) {
-                    setError(message)
-                } else {
-                    setToken('token', token, { path: '/' })
-                    setError('')
-                    resetForm()
-                }
             }
         }
     })
@@ -114,7 +109,9 @@ const FormPage = () => {
                         setTouched: formik.setTouched,
                         resetForm: formik.resetForm
                     }]}/>
-                    <button type="submit" className="form-form__button">{buttonText}</button>
+                    <button type="submit" className="form-form__button">
+                        {pathname === '/form/login' ? 'Войти' : 'Зарегестрироваться'}
+                    </button>
                     <div className="form-form__links">
                         <a href="https://www.youtube.com/"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M17.8315 7.36596C17.7967 7.17731 17.6957 7.00661 17.5458 6.88367C17.396 6.76074 17.207 6.69336 17.0117 6.69332H9.16473C9.05531 6.69329 8.94696 6.71443 8.84586 6.75553C8.74477 6.79663 8.65291 6.85688 8.57554 6.93285C8.49817 7.00882 8.4368 7.09901 8.39494 7.19827C8.35308 7.29753 8.33154 7.40392 8.33157 7.51135V10.6756C8.33154 10.7831 8.35308 10.8895 8.39494 10.9887C8.4368 11.088 8.49817 11.1782 8.57554 11.2542C8.65291 11.3301 8.74477 11.3904 8.84586 11.4315C8.94696 11.4726 9.05531 11.4937 9.16473 11.4937H12.466C12.2308 11.8835 11.9083 12.2157 11.523 12.4651C10.8189 12.9034 9.99822 13.127 9.16473 13.1074C8.30031 13.0977 7.46099 12.8207 6.76606 12.3159C6.07113 11.811 5.55593 11.1039 5.29369 10.2951L5.29345 10.2938C5.00162 9.45398 5.00162 8.54287 5.29345 7.70307L5.29365 7.70172C5.55607 6.89309 6.07135 6.18622 6.76627 5.68152C7.46119 5.17683 8.30042 4.89997 9.16473 4.89028C9.64497 4.87946 10.1227 4.96189 10.5704 5.13285C11.0181 5.3038 11.427 5.55991 11.7736 5.88646C11.931 6.03417 12.1411 6.11553 12.3588 6.11314C12.5765 6.11075 12.7847 6.02481 12.9387 5.87368L15.3283 3.52742C15.4075 3.44979 15.4699 3.35728 15.5119 3.25544C15.5538 3.15359 15.5744 3.04448 15.5724 2.93464C15.5704 2.8248 15.5459 2.71648 15.5004 2.61615C15.4548 2.51582 15.3891 2.42553 15.3072 2.3507C13.6443 0.819906 11.4441 -0.0219693 9.16473 0.000436005C7.46504 -0.00450159 5.79774 0.45691 4.35086 1.33264C2.90398 2.20837 1.73507 3.46359 0.975926 4.95674L0.974701 4.95819C0.331112 6.21122 -0.0028007 7.59549 1.76942e-05 8.99884C0.00204494 10.4016 0.335711 11.7848 0.974743 13.0395L0.975968 13.0409C1.7351 14.5341 2.90402 15.7893 4.35089 16.665C5.79776 17.5408 7.46504 18.0022 9.16473 17.9972C11.402 18.0529 13.5764 17.2665 15.2423 15.7992L15.2429 15.7988L15.2436 15.7981L15.2438 15.798L15.2438 15.7979C16.1468 14.9449 16.8582 13.916 17.3322 12.7772C17.8062 11.6383 18.0324 10.4147 17.9963 9.18498C17.9966 8.57503 17.9415 7.96627 17.8315 7.36596ZM9.16473 1.63651C10.7236 1.62161 12.2457 2.1016 13.5042 3.00496L12.2931 4.19369C11.3748 3.56957 10.2815 3.24126 9.16473 3.25421C8.14513 3.25936 7.14535 3.53119 6.26829 4.04172C5.39123 4.55225 4.66857 5.28305 4.1747 6.15888L3.28388 5.48094L2.79649 5.10982C3.46699 4.04461 4.40447 3.16599 5.51937 2.55791C6.63428 1.94983 7.88936 1.63259 9.16473 1.63651ZM2.06578 11.3739C1.53312 9.8337 1.53312 8.16398 2.06578 6.62382L3.55065 7.75421C3.3608 8.57323 3.3608 9.42366 3.55065 10.2427L2.06578 11.3739ZM9.16473 16.3612C7.88934 16.3651 6.63424 16.0478 5.51932 15.4397C4.40441 14.8316 3.46692 13.9529 2.79642 12.8877L3.1117 12.6476L4.1747 11.838C4.66835 12.7141 5.39094 13.4451 6.26803 13.9558C7.14513 14.4665 8.14502 14.7384 9.16473 14.7435C10.1192 14.7545 11.0629 14.5441 11.9189 14.1293L13.3283 15.2036C12.0888 15.9878 10.639 16.3909 9.16473 16.3612ZM14.6018 14.1028L14.4493 13.9866L13.3018 13.1119C13.9035 12.4736 14.3079 11.6805 14.4679 10.8251C14.4903 10.707 14.4859 10.5855 14.4551 10.4693C14.4242 10.3531 14.3677 10.245 14.2895 10.1526C14.2113 10.0603 14.1133 9.98595 14.0025 9.93497C13.8918 9.884 13.7709 9.8576 13.6486 9.85765H9.99788V8.32939H16.2872C16.3157 8.61218 16.33 8.89818 16.33 9.18497C16.3787 10.9755 15.7647 12.7227 14.6018 14.1028H14.6018Z" fill="black"/>
