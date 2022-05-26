@@ -17,8 +17,8 @@ const ProfileSettings = () => {
             </div>
             <div className="change-password">
                 <input className="change-password__input" type="password" placeholder="Старый пароль"/>
-                <input className="change-password__input" type="password" placeholder="Старый пароль"/>
-                <input className="change-password__input" type="password" placeholder="Старый пароль"/>
+                <input className="change-password__input" type="password" placeholder="Новый пароль"/>
+                <input className="change-password__input" type="password" placeholder="Подтвердить пароль"/>
             </div>
             <button className="change-button">Применить</button>
         </>

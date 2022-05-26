@@ -59,3 +59,25 @@ export const getUsers = async (req, res) => {
         console.log(e)
     }
 }
+
+export const getGameData = async (req, res) => {
+    try {
+        const {id} = req.query
+        const data = await User.findById(id)
+        res.send(JSON.stringify(data.game))
+    } catch (e) {
+        res.send(JSON.stringify({title: 'Дэнис, ошибка!!', message: e.message}))
+    }
+
+}
+
+export const updateGameData = async (req, res) => {
+    try {
+        const {id} = req.query
+        const game = req.body
+        await User.findByIdAndUpdate(id, {game})
+        res.send(JSON.stringify({title: 'Данные изменены', data: game}))
+    } catch (e) {
+        res.send(JSON.stringify({title: 'Дэнис, ошибка!!', message: e.message}))
+    }
+}
