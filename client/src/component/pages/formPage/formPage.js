@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import { useCookies } from 'react-cookie'
+import idContext from '../../idContext/idContext'
 
 import './formPage.scss'
 
@@ -79,6 +80,7 @@ const FormPage = () => {
             }
         }
     })
+
 
     return (
         <div className="form-modal">

@@ -45,7 +45,6 @@ export const login = async (req, res) => {
             return res.status(400).json({message: `Введён неверный пароль`})
         }
         const token = generateAccessToken(user._id)
-        res.cookie('token', token, {maxAge: 259200})
         res.send(JSON.stringify({token}))
     } catch (e) {
         console.log(e)
@@ -53,20 +52,11 @@ export const login = async (req, res) => {
     }
 }
 
-export const getUsers = async (req, res) => {
-    try {
-        const users = await User.find()
-        res.json(users)
-    } catch (e) {
-        console.log(e)
-    }
-}
-
 export const getGameData = async (req, res) => {
     try {
         const {id} = req.query
         const data = await User.findById(id)
-        res.send(JSON.stringify(data.game))
+        res.send(JSON.stringify({game: data.game, nickname: data.nickname}))
     } catch (e) {
         res.send(JSON.stringify({title: 'Дэнис, ошибка!!', message: e.message}))
     }
