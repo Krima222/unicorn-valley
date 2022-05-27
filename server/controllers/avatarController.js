@@ -10,7 +10,7 @@ export const postAvatar = (req, res) => {
         src: req.body.src,
         alt: req.body.alt
     }).save();
-    res.send(JSON.stringify({message: 'Новая ссылка на картинку успешно сохранена'}))
+    res.send(JSON.stringify({message: 'Новая ссылка на аватар успешно сохранена'}))
 }
 
 export const deleteAvatars = (req, res) => {

@@ -12,6 +12,13 @@
         background-color: gray;
         list-style: none;
         overflow: hidden;
+        transition: all .2s;
+        &:hover {
+            transform: scale(1.02);
+        }
+        &:active {
+            transform: scale(.98);
+        }
     }
     &__link {
         display: block;

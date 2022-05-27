@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import userRouter from './routes/userRouter.js'
 import avatarRouter from './routes/avatarRouter.js'
+import coursesRouter from './routes/coursesRouter.js'
 
 const app = express()
 const db = 'mongodb+srv://test:test1q2w@cluster0.i2rzl.mongodb.net/test-db?retryWrites=true&w=majority'
@@ -19,5 +20,6 @@ mongoose.connect(db, {useNewUrlParser: true, useUnifiedTopology: true})
         app.use('/images', express.static('images'))
         app.use(userRouter)
         app.use(avatarRouter)
+        app.use(coursesRouter)
     })
     .catch(err => console.log(err))

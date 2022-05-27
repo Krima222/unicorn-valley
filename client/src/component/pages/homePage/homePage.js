@@ -7,24 +7,10 @@ import ProfileField from '../../profileField/profileField';
 import CourseList from '../../courseList/courseList';
 import ProfileSettings from '../../profileSettings/profileSettings'
 
-
 import './homePage.scss';
 
-import img from '../../imgs/js-react.jpg'
-
 const Homepage = () => {
-    const [courses, setCourses] = useState([
-        {title: 'js-react-course', thumbnail: img, link: 'https://www.udemy.com/course/javascript_full/'},
-        {title: 'js-react-course', thumbnail: img, link: 'https://www.udemy.com/course/javascript_full/'},
-        {title: 'js-react-course', thumbnail: img, link: 'https://www.udemy.com/course/javascript_full/'},
-        {title: 'js-react-course', thumbnail: img, link: 'https://www.udemy.com/course/javascript_full/'},
-        {title: 'js-react-course', thumbnail: img, link: 'https://www.udemy.com/course/javascript_full/'},
-        {title: 'js-react-course', thumbnail: img, link: 'https://www.udemy.com/course/javascript_full/'},
-        {title: 'js-react-course', thumbnail: img, link: 'https://www.udemy.com/course/javascript_full/'},
-        {title: 'js-react-course', thumbnail: img, link: 'https://www.udemy.com/course/javascript_full/'},
-        {title: 'js-react-course', thumbnail: img, link: 'https://www.udemy.com/course/javascript_full/'},
-        {title: 'js-react-course', thumbnail: img, link: 'https://www.udemy.com/course/javascript_full/'}
-    ]);
+    const [courses, setCourses] = useState([]);
     const [userData, setUserData] = useState({});
     const [game, setGame] = useState({});
     const [{token}] = useCookies(['token']);
@@ -45,18 +31,19 @@ const Homepage = () => {
         setGame(game)
     }
 
-    const getAvatars = async () => {
-        const res = await fetch('http://localhost:5000/avatars')
+    const getStatic = async (type, setState) => {
+        const res = await fetch(`http://localhost:5000/${type}`)
         const data = await res.json()
         if (!res.ok) {
             return console.log(data.message)
         }
-        setAvatars(data)
+        setState(data)
     }
 
     useEffect(() => {
         getData(token)
-        getAvatars()
+        getStatic('avatars', setAvatars)
+        getStatic('courses', setCourses)
     }, [])
 
     useEffect(() => {
