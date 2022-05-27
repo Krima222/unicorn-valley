@@ -1,19 +1,18 @@
 import './profileSettings.scss';
-import avatar1 from '../imgs/avatar1.png';
-import avatar2 from '../imgs/avatar2.png';
-import avatar3 from '../imgs/avatar3.png';
-import avatar4 from '../imgs/avatar4.png';
-import avatar5 from '../imgs/avatar5.png';
 
-const ProfileSettings = () => {
+const ProfileSettings = ({avatars}) => {
+
+    const avatarList = (arr) =>
+        arr.map((item, i) => {
+            return (
+                <img src={item.src} alt={item.alt} key={item._id} className='avatar-list__item'/>
+            )
+        })
+
     return (
         <>
             <div className="avatar-list">
-                <img src={avatar1} alt='' className='avatar-list__item'/>
-                <img src={avatar2} alt='' className='avatar-list__item'/>
-                <img src={avatar3} alt='' className='avatar-list__item'/>
-                <img src={avatar4} alt='' className='avatar-list__item'/>
-                <img src={avatar5} alt='' className='avatar-list__item'/>
+                {avatarList(avatars)}
             </div>
             <div className="change-password">
                 <input className="change-password__input" type="password" placeholder="Старый пароль"/>

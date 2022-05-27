@@ -29,6 +29,7 @@ const Homepage = () => {
     const [nickname, setNickname] = useState('')
     const [game, setGame] = useState({})
     const [{token}] = useCookies(['token']);
+    const [avatars, setAvatars] = useState([])
 
     const getData = async (token) => {
         const res = await fetch('http://localhost:5000/userInfo', {
@@ -44,8 +45,18 @@ const Homepage = () => {
         setGame(game)
     }
 
+    const getAvatars = async () => {
+        const res = await fetch('http://localhost:5000/avatars')
+        const data = await res.json()
+        if (!res.ok) {
+            return console.log(data.message)
+        }
+        setAvatars(data)
+    }
+
     useEffect(() => {
-        getData(token);
+        getData(token)
+        getAvatars()
     }, [])
 
     return (
@@ -57,7 +68,7 @@ const Homepage = () => {
                     <ProfileField>
                         <Routes>
                             <Route path='courses' element={<CourseList courses={courses}/>}/>
-                            <Route path='settings' element={<ProfileSettings/>}/>
+                            <Route path='settings' element={<ProfileSettings avatars={avatars}/>}/>
                         </Routes>
                     </ProfileField>
                 </div>
