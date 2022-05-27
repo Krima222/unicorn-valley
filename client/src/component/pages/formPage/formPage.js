@@ -28,7 +28,11 @@ const FormPage = () => {
         const {token, message} = await res.json()
         if (res.ok) {
             setToken('token', token, { path: '/' })
-            navigate('/homepage')
+            if (type === 'registration') {
+                setTimeout(() => navigate('/homepage'), 1000)
+            } else {
+                navigate('/homepage')
+            }
         } else {
             setError(message)
         }
