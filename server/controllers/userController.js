@@ -2,7 +2,7 @@ import User from '../models/user.js'
 import bcrypt from 'bcryptjs'
 import { validationResult } from 'express-validator'
 import jwt from 'jsonwebtoken'
-import {secret} from '../config.js'
+import { secret } from '../config.js'
 
 const generateAccessToken = (id) => {
     const payload = {
@@ -118,26 +118,31 @@ export const changeUserInfo = async (req, res) => {
         const {id} = jwt.verify(token, secret)
         const {prevPassword, newPassword, newAvatar} = req.body
         if (newAvatar && prevPassword) {
-            const validingPassword = bcrypt.compareSync(password, user.password)
+            const {password} = await User.findById(id)
+            const validingPassword = bcrypt.compareSync(prevPassword, password)
             if (!validingPassword) {
                 return res.status(400).json({title: 'error', message: `Введён неверный пароль`})
             }
             const hashPassword = bcrypt.hashSync(newPassword, 7);
-            User.findByIdAndUpdate(id, {avatar: newAvatar, password: hashPassword})
-            res.send(JSON.stringify({title: 'success', message: 'Данные успешно изменены'}))
+            User.findByIdAndUpdate(id, {avatar: newAvatar, password: hashPassword}, () => {
+                res.send(JSON.stringify({title: 'success', message: 'Данные успешно изменены'}))
+            })
         } else if (newAvatar) {
-            User.findByIdAndUpdate(id, {avatar: newAvatar})
-            res.send(JSON.stringify({title: 'success', message: 'Аватар успешно изменён'}))
+            User.findByIdAndUpdate(id, {avatar: newAvatar}, () => {
+                res.send(JSON.stringify({title: 'success', message: 'Аватар успешно изменён'}))
+            })
         } else if (prevPassword) {
-            const validingPassword = bcrypt.compareSync(password, user.password)
+            const {password} = await User.findById(id)
+            const validingPassword = bcrypt.compareSync(prevPassword, password)
             if (!validingPassword) {
                 return res.status(400).json({title: 'error', message: `Введён неверный пароль`})
             }
             const hashPassword = bcrypt.hashSync(newPassword, 7);
-            User.findByIdAndUpdate(id, {password: hashPassword})
-            res.send(JSON.stringify({title: 'Success', message: 'Пороль успешно изменён'}))
+            User.findByIdAndUpdate(id, {password: hashPassword}, () => {
+                res.send(JSON.stringify({title: 'Success', message: 'Пороль успешно изменён'}))
+            })
         }
     } catch (e) {
-        res.send(JSON.stringify({title: 'Ошибка при получении данных от пользователя', message: e.message}))
+        res.send(JSON.stringify({title: 'error', message: e.message}))
     }
 }

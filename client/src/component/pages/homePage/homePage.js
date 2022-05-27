@@ -13,7 +13,6 @@ import './homePage.scss';
 import img from '../../imgs/js-react.jpg'
 
 const Homepage = () => {
-
     const [courses, setCourses] = useState([
         {title: 'js-react-course', thumbnail: img, link: 'https://www.udemy.com/course/javascript_full/'},
         {title: 'js-react-course', thumbnail: img, link: 'https://www.udemy.com/course/javascript_full/'},
@@ -26,10 +25,11 @@ const Homepage = () => {
         {title: 'js-react-course', thumbnail: img, link: 'https://www.udemy.com/course/javascript_full/'},
         {title: 'js-react-course', thumbnail: img, link: 'https://www.udemy.com/course/javascript_full/'}
     ]);
-    const [userData, setUserData] = useState({})
-    const [game, setGame] = useState({})
+    const [userData, setUserData] = useState({});
+    const [game, setGame] = useState({});
     const [{token}] = useCookies(['token']);
-    const [avatars, setAvatars] = useState([])
+    const [avatars, setAvatars] = useState([]);
+    const [selectedAvatar, setSelectedAvatar] = useState(null);
 
     const getData = async (token) => {
         const res = await fetch('http://localhost:5000/userInfo', {
@@ -59,6 +59,14 @@ const Homepage = () => {
         getAvatars()
     }, [])
 
+    useEffect(() => {
+        if (selectedAvatar) {
+            setUserData(userData => ({
+                ...userData, avatar: selectedAvatar
+            }))
+        }
+    }, [selectedAvatar])
+
     return (
         <>
             <Header/>
@@ -68,7 +76,13 @@ const Homepage = () => {
                     <ProfileField>
                         <Routes>
                             <Route path='courses' element={<CourseList courses={courses}/>}/>
-                            <Route path='settings' element={<ProfileSettings avatars={avatars}/>}/>
+                            <Route path='settings' element={<ProfileSettings
+                                                                avatars={avatars}
+                                                                selectedAvatar={selectedAvatar}
+                                                                setSelectedAvatar={setSelectedAvatar}
+                                                                token={token}/>
+                                                            }
+                            />
                         </Routes>
                     </ProfileField>
                 </div>

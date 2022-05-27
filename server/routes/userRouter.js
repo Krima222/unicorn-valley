@@ -16,6 +16,6 @@ userRouter.get('/game', getGameData);
 userRouter.put('/game', updateGameData);
 userRouter.get('/autification', autificationUser)
 userRouter.get('/userInfo', userInfo)
-userRouter.get('/changeUserInfo', changeUserInfo)
+userRouter.post('/changeUserInfo', changeUserInfo)
 
 export default userRouter;

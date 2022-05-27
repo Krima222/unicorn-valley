@@ -3,7 +3,6 @@ import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import { useCookies } from 'react-cookie'
-import idContext from '../../idContext/idContext'
 
 import './formPage.scss'
 
@@ -28,11 +27,7 @@ const FormPage = () => {
         const {token, message} = await res.json()
         if (res.ok) {
             setToken('token', token, { path: '/' })
-            if (type === 'registration') {
-                setTimeout(() => navigate('/homepage'), 1000)
-            } else {
-                navigate('/homepage')
-            }
+            setTimeout(() => navigate('/homepage/courses'), 500)
         } else {
             setError(message)
         }

@@ -35,14 +35,17 @@ function App() {
   return (
       <idContext.Provider value={id}>
           <Router>
-                {!loading ? <Routes>
+                <Routes>
                     <Route path='/form' element={<FormPage/>}>
                         <Route path='registration' element={<Registration/>}/>
                         <Route path='login' element={<Login/>}/>
                     </Route>
-                    <Route path='/' element={id ? <Navigate to="/homepage/courses"/> : <Navigate to="/form/login"/>}/>
-                    <Route path='/homepage/*' element={id ? <Homepage/> : <Navigate to="/form/login"/>}/>
-                </Routes> : null}
+                    {!loading ?
+                    <>
+                        <Route path='/' element={id ? <Navigate to="/homepage/courses"/> : <Navigate to="/form/login"/>}/>
+                        <Route path='/homepage/*' element={id ? <Homepage/> : <Navigate to="/form/login"/>}/>
+                    </> : null}
+                </Routes>
         </Router>
       </idContext.Provider>
   );

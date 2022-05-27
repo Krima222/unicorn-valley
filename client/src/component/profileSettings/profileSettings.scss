@@ -10,11 +10,18 @@
         height: 150px;
         width: 150px;
         border-radius: 83px;
+        transition: all .2s;
+        &:hover {
+            transform: scale(.96);
+        }
+        &_active {
+            outline: 3px solid #636363;
+        }
     }
 }
 
 .change-password {
-    margin: 20px 0 20px 20px;
+    margin: 20px 0 15px 20px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
@@ -28,6 +35,14 @@
         border: 1px solid rgba($color: #000, $alpha: .5);
         background-color: #9DDAE9;
         box-shadow:3px 3px 3px darkgrey;
+        outline: none;
+        transition: all .3s;
+        &:hover {
+            filter: brightness(95%);
+        }
+        &:focus {
+            filter: brightness(90%);
+        }
     }
 }
 
@@ -40,4 +55,24 @@
     border: none;
     box-shadow: 3px 3px 3px darkgrey;;
     margin-left: auto;
+    transition: all .3s;
+    &:hover {
+        filter: brightness(80%);
+    }
+    &:active {
+        filter: brightness(65%);
+    }
+}
+
+.message {
+    display: block;
+    padding: 0 23px 10px 23px;
+    font-size: 14px;
+    text-align: center;
+    &_success {
+        color: #51b968;
+    }
+    &_error {
+        color: #FB6E70;
+    }
 }
