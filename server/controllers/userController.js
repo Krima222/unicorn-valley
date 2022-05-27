@@ -108,3 +108,36 @@ export const userInfo = async (req, res) => {
         res.send(JSON.stringify({title: 'Ошибка при получении данных от пользователя', message: e.message}))
     }
 }
+
+export const changeUserInfo = async (req, res) => {
+    try {
+        const token = req.headers.authorization.split(' ')[1]
+        if (!token) {
+            return res.status(403).json({message: 'Пользователь не авторизован'})
+        }
+        const {id} = jwt.verify(token, secret)
+        const {prevPassword, newPassword, newAvatar} = req.body
+        if (newAvatar && prevPassword) {
+            const validingPassword = bcrypt.compareSync(password, user.password)
+            if (!validingPassword) {
+                return res.status(400).json({title: 'error', message: `Введён неверный пароль`})
+            }
+            const hashPassword = bcrypt.hashSync(newPassword, 7);
+            User.findByIdAndUpdate(id, {avatar: newAvatar, password: hashPassword})
+            res.send(JSON.stringify({title: 'success', message: 'Данные успешно изменены'}))
+        } else if (newAvatar) {
+            User.findByIdAndUpdate(id, {avatar: newAvatar})
+            res.send(JSON.stringify({title: 'success', message: 'Аватар успешно изменён'}))
+        } else if (prevPassword) {
+            const validingPassword = bcrypt.compareSync(password, user.password)
+            if (!validingPassword) {
+                return res.status(400).json({title: 'error', message: `Введён неверный пароль`})
+            }
+            const hashPassword = bcrypt.hashSync(newPassword, 7);
+            User.findByIdAndUpdate(id, {password: hashPassword})
+            res.send(JSON.stringify({title: 'Success', message: 'Пороль успешно изменён'}))
+        }
+    } catch (e) {
+        res.send(JSON.stringify({title: 'Ошибка при получении данных от пользователя', message: e.message}))
+    }
+}
