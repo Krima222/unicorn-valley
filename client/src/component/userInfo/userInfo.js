@@ -1,11 +1,11 @@
 import './userInfo.scss';
 
 
-const UserInfo = ({nickname}) => {
+const UserInfo = ({userData: {nickname, avatar}}) => {
 
     return (
         <div className="user">
-            <div className="user__foto"></div>
+            <img className="user__foto" src={avatar} alt='avatar'/>
             <div className="user__nickname">{nickname}</div>
             <div className="user__pazzls"></div>
         </div>

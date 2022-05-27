@@ -102,8 +102,8 @@ export const userInfo = async (req, res) => {
         if (!user) {
             return res.status(403).json({message: 'Ошибка при поиске данных'})
         }
-        const {nickname, game} = user
-        res.send(JSON.stringify({nickname, game}))
+        const {nickname, game, avatar} = user
+        res.send(JSON.stringify({nickname, game, avatar}))
     } catch (e) {
         res.send(JSON.stringify({title: 'Ошибка при получении данных от пользователя', message: e.message}))
     }

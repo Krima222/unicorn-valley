@@ -26,7 +26,7 @@ const Homepage = () => {
         {title: 'js-react-course', thumbnail: img, link: 'https://www.udemy.com/course/javascript_full/'},
         {title: 'js-react-course', thumbnail: img, link: 'https://www.udemy.com/course/javascript_full/'}
     ]);
-    const [nickname, setNickname] = useState('')
+    const [userData, setUserData] = useState({})
     const [game, setGame] = useState({})
     const [{token}] = useCookies(['token']);
     const [avatars, setAvatars] = useState([])
@@ -37,11 +37,11 @@ const Homepage = () => {
                 Authorization: `Bearer ${token}`
             }
         })
-        const {nickname, game, message} = await res.json()
+        const {nickname, game, avatar, message} = await res.json()
         if (!res.ok) {
             return console.log(message)
         }
-        setNickname(nickname)
+        setUserData({nickname, avatar})
         setGame(game)
     }
 
@@ -64,7 +64,7 @@ const Homepage = () => {
             <Header/>
             <div className="homepage">
                 <div className="homepage-container">
-                    <UserInfo nickname={nickname}/>
+                    <UserInfo userData={userData}/>
                     <ProfileField>
                         <Routes>
                             <Route path='courses' element={<CourseList courses={courses}/>}/>
