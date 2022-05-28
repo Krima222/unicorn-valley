@@ -21,6 +21,12 @@ const createDefaultPuzzles = (puzzles) => {
     }))
 }
 
+const updatePuzzleItem = (user, puzzleName, itemName, counted) => {
+    const desiredPuzzle = user.puzzles.find(({name}) => name === puzzleName)
+    const desiredItem = desiredPuzzle.puzzle.find(({name}) => name === itemName)
+    desiredItem.counted = counted
+}
+
 export const registrate = async (req, res) => {
     try {
         const errors = validationResult(req)
@@ -91,16 +97,9 @@ export const updatePuzzle = async (req, res) => {
         const {id, puzzle} = req.query
         const {name, counted} = req.body
         const user = await User.findById(id)
-        const puzzles = user.puzzles.map(item => {
-            if (item.name === puzzle) {
-                return item.puzzle.map(el => {
-                    if (el.name === name) {
-                        return {...el, counted}
-                    } else return el
-                })
-            } else return item
-        })
-        await User.findByIdAndUpdate(id, {puzzles})
+        updatePuzzleItem(user, puzzle, name, counted)
+        await user.save()
+        res.send(JSON.stringify({title: 'Пазл успешно изменён', data: user.puzzles}))
     } catch (e) {
         res.send(JSON.stringify({title: 'Дэнис, ошибка!!', message: e.message}))
     }
