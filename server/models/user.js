@@ -5,6 +5,17 @@ const user = new mongoose.Schema({
     nickname: {type: String, unique: true, required: true},
     email: {type: String, unique: true, required: true},
     password: {type: String, required: true},
+    puzzles: [
+        {
+            name: {type: String, required: true},
+            puzzle: [
+                {
+                    name: {type: String, required: true},
+                    counted: {type: Boolean, required: true}
+                }
+            ]
+        }
+    ],
     game: {}
 }, {timestamps: true})
 
