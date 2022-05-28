@@ -3,7 +3,7 @@ import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import './profileSettings.scss';
 
-const ProfileSettings = ({avatars, selectedAvatar, setSelectedAvatar, token}) => {
+const ProfileSettings = ({avatars, selectedAvatar, setSelectedAvatar, newNickname, setNewNickname, token}) => {
 
     const [response, setResponse] = useState('');
 
@@ -20,7 +20,7 @@ const ProfileSettings = ({avatars, selectedAvatar, setSelectedAvatar, token}) =>
             )
         })
 
-    const sendAvatar = () => {
+    const sendUserDataWithoutPass = () => {
         fetch('http://localhost:5000/changeUserInfo', {
             method: 'POST',
             headers: {
@@ -28,9 +28,11 @@ const ProfileSettings = ({avatars, selectedAvatar, setSelectedAvatar, token}) =>
                 Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({
+                newNickname,
                 newAvatar: selectedAvatar,
             })
         }).then(res => res.json()).then(data => {
+            setNewNickname(null);
             setResponse(data);
         })
     }
@@ -43,13 +45,14 @@ const ProfileSettings = ({avatars, selectedAvatar, setSelectedAvatar, token}) =>
                 Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({
+                newNickname,
                 newAvatar: selectedAvatar,
                 prevPassword: values.prevPassword,
                 newPassword: values.newPassword
             })
         }).then(res => res.json()).then(data => {
+            setNewNickname(null);
             setResponse(data);
-            console.log(data);
             resetForm();
         })
     }
@@ -67,15 +70,15 @@ const ProfileSettings = ({avatars, selectedAvatar, setSelectedAvatar, token}) =>
                 }}
                 validationSchema={yup.object({
                     prevPassword: yup.string()
-                        .min(4, 'пароль должен быть больше 4 символов')
-                        .required('введите старый пароль'),
+                        .min(4, 'Пароль должен быть больше 4 символов')
+                        .required('Введите старый пароль'),
                     newPassword: yup.string()
-                        .notOneOf([yup.ref('prevPassword'), null], 'новый пароль совпадает со старым')
-                        .min(4, 'пароль должен быть больше 4 символов')
-                        .required('введите новый пароль'),
+                        .notOneOf([yup.ref('prevPassword'), null], 'Новый пароль совпадает со старым')
+                        .min(4, 'Пароль должен быть больше 4 символов')
+                        .required('Введите новый пароль'),
                     confirmNewPassword: yup.string()
-                        .oneOf([yup.ref('newPassword'), null], 'пароли не совпадают')
-                        .required('введите пароль для подтверждения'),
+                        .oneOf([yup.ref('newPassword'), null], 'Пароли не совпадают')
+                        .required('Введите пароль для подтверждения'),
                 })}
                 onSubmit={(values, {resetForm}) => sendUserData(values, resetForm)}
             >
@@ -120,7 +123,7 @@ const ProfileSettings = ({avatars, selectedAvatar, setSelectedAvatar, token}) =>
                             type="submit"
                             onClick={() => {
                                 if(!(values.prevPassword || values.newPassword || values.confirmNewPassword)) {
-                                    sendAvatar();
+                                    sendUserDataWithoutPass();
                                 }
                             }}
                         >

@@ -16,6 +16,7 @@ const Homepage = () => {
     const [{token}] = useCookies(['token']);
     const [avatars, setAvatars] = useState([]);
     const [selectedAvatar, setSelectedAvatar] = useState(null);
+    const [newNickname, setNewNickname] = useState(null);
 
     const getData = async (token) => {
         const res = await fetch('http://localhost:5000/userInfo', {
@@ -41,7 +42,10 @@ const Homepage = () => {
     }
 
     useEffect(() => {
-        getData(token)
+        if (newNickname === null) getData(token)
+    }, [newNickname])
+
+    useEffect(() => {
         getStatic('avatars', setAvatars)
         getStatic('courses', setCourses)
     }, [])
@@ -59,7 +63,10 @@ const Homepage = () => {
             <Header/>
             <div className="homepage">
                 <div className="homepage-container">
-                    <UserInfo userData={userData}/>
+                    <UserInfo
+                        userData={userData}
+                        newNickname={newNickname}
+                        setNewNickname={setNewNickname}/>
                     <ProfileField>
                         <Routes>
                             <Route path='courses' element={<CourseList courses={courses}/>}/>
@@ -67,6 +74,8 @@ const Homepage = () => {
                                                                 avatars={avatars}
                                                                 selectedAvatar={selectedAvatar}
                                                                 setSelectedAvatar={setSelectedAvatar}
+                                                                newNickname={newNickname}
+                                                                setNewNickname={setNewNickname}
                                                                 token={token}/>
                                                             }
                             />
