@@ -9,9 +9,23 @@ $grayscale: .9;
     }
     &__description {
         width: 450px;
+        height: 350px;
         font-size: 27px;
         margin: 0 0 0 auto;
         color: rgba($color: #000000, $alpha: .75);
+        overflow: auto;
+        overflow-wrap: break-word;
+        &::-webkit-scrollbar {
+            width: 18px;
+        }
+        &::-webkit-scrollbar-track {
+            background: rgba($color: #C4C4C4, $alpha: .5);
+            border-radius: 25px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, .3);
+            border-radius: 25px;
+        }
     }
     &__field {
         position: absolute;
@@ -39,6 +53,14 @@ $grayscale: .9;
             background-size: contain;
             background-repeat: no-repeat;
             filter: grayscale($grayscale);
+            transition: all .3s;
+            &:hover {
+                z-index: 1;
+                transform: translate(-5px, -5px) scale(1.1);
+            }
+            &:active {
+                transform: translate(-6px, -6px) scale(1.15);
+            }
         }
         &-2 {
             position: absolute;
@@ -52,6 +74,14 @@ $grayscale: .9;
             background-size: contain;
             background-repeat: no-repeat;
             filter: grayscale($grayscale);
+            transition: all .3s;
+            &:hover {
+                z-index: 1;
+                transform: translate(5px, -5px) scale(1.1);
+            }
+            &:active {
+                transform: translate(6px, -6px) scale(1.15);
+            }
         }
         &-3 {
             z-index: 1;
@@ -69,6 +99,14 @@ $grayscale: .9;
             background-size: contain;
             background-repeat: no-repeat;
             filter: grayscale($grayscale);
+            transition: all .3s;
+            &:hover {
+                z-index: 1;
+                transform: scale(1.1);
+            }
+            &:active {
+                transform: scale(1.15);
+            }
         }
         &-4 {
             position: absolute;
@@ -82,6 +120,14 @@ $grayscale: .9;
             background-size: contain;
             background-repeat: no-repeat;
             filter: grayscale($grayscale);
+            transition: all .3s;
+            &:hover {
+                z-index: 1;
+                transform: translate(-5px, 5px) scale(1.1);
+            }
+            &:active {
+                transform: translate(-6px, 6px) scale(1.15);
+            }
         }
         &-5 {
             position: absolute;
@@ -96,6 +142,14 @@ $grayscale: .9;
             background-size: contain;
             background-repeat: no-repeat;
             filter: grayscale($grayscale);
+            transition: all .3s;
+            &:hover {
+                z-index: 1;
+                transform: translate(5px, 5px) scale(1.1);
+            }
+            &:active {
+                transform: translate(6px, 6px) scale(1.15);
+            }
         }
         &_active {
             filter: grayscale(0);

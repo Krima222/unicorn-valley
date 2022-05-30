@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import './userInfo.scss'
 
@@ -8,6 +9,7 @@ const UserInfo = ({userData: {nickname, avatar}, newNickname, setNewNickname, pu
 
     const [typing, setTyping] = useState(false)
     const nickNameInput = useRef(null)
+    const navigate = useNavigate()
 
     const onType = () => {
         setTyping(true)
@@ -26,6 +28,11 @@ const UserInfo = ({userData: {nickname, avatar}, newNickname, setNewNickname, pu
         if (typing) nickNameInput.current.focus()
     }, [typing])
 
+    const selectPuzzle = (puzzle) => {
+        setSelectedPuzzle(puzzle)
+        navigate('/homepage/puzzle')
+    }
+
     const puzzleList = (arr) => {
         return arr.map(({name, puzzle, _id}) => {
             const piecesList = puzzle.map(({img, counted, name, _id}, i) => {
@@ -37,7 +44,7 @@ const UserInfo = ({userData: {nickname, avatar}, newNickname, setNewNickname, pu
                 )
             })
             return (
-                <li key={_id} className="puzzle__item" onClick={() => setSelectedPuzzle({name, puzzle})}>
+                <li key={_id} className="puzzle__item" onClick={() => selectPuzzle({name, puzzle})}>
                     <h2 className="puzzle__title">{name}</h2>
                     <div className="puzzle__list">{piecesList}</div>
                 </li>
