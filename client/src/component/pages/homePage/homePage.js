@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-import Header from '../../header/header';
-import UserInfo from '../../userInfo/userInfo';
-import ProfileField from '../../profileField/profileField';
-import CourseList from '../../courseList/courseList';
+import { useEffect, useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
+import { useCookies } from 'react-cookie'
+import Header from '../../header/header'
+import UserInfo from '../../userInfo/userInfo'
+import ProfileField from '../../profileField/profileField'
+import CourseList from '../../courseList/courseList'
 import ProfileSettings from '../../profileSettings/profileSettings'
+import TrajectoryPuzzle from '../../trajectoryPuzzle/trajectoryPuzzle'
 
 import './homePage.scss';
 
@@ -19,6 +20,7 @@ const Homepage = () => {
     const [selectedAvatar, setSelectedAvatar] = useState(null);
     const [puzzles, setPuzzles] = useState([])
     const [newNickname, setNewNickname] = useState(null);
+    const [selectedPuzzle, setSelectedPuzzle] = useState({})
 
     const getData = async (token) => {
         const res = await fetch('http://localhost:5000/userInfo', {
@@ -52,7 +54,9 @@ const Homepage = () => {
         if (!res.ok) {
             return console.log(data.message)
         }
-        setPuzzles(mergePuzzles(data, userPuzzles))
+        const puzzles = mergePuzzles(data, userPuzzles)
+        setPuzzles(puzzles)
+        setSelectedPuzzle(puzzles[0])
     }
 
     const getStatic = async (type, setState) => {
@@ -89,7 +93,8 @@ const Homepage = () => {
                         userData={userData}
                         newNickname={newNickname}
                         setNewNickname={setNewNickname}
-                        puzzles={puzzles}/>
+                        puzzles={puzzles}
+                        setSelectedPuzzle={setSelectedPuzzle}/>
                     <ProfileField>
                         <Routes>
                             <Route path='courses' element={<CourseList courses={courses}/>}/>
@@ -102,6 +107,7 @@ const Homepage = () => {
                                                                 token={token}/>
                                                             }
                             />
+                            <Route path='puzzle' element={<TrajectoryPuzzle puzzle={selectedPuzzle}/>}/>
                         </Routes>
                     </ProfileField>
                 </div>
