@@ -1,9 +1,9 @@
 .user {
-    width: 200px;
+    width: 210px;
     &__avatar {
         margin-top: 53px;
-        height: 200px;
-        width: 200px;
+        height: 210px;
+        width: 210px;
         border-radius: 50%;
     }
     &__nickname-field {
@@ -49,6 +49,8 @@
     }
 }
 
+$grayscale: .9;
+
 .puzzle {
     margin-top: 20px;
     overflow: auto;
@@ -56,10 +58,18 @@
     padding: 0;
     &__item {
         width: 180px;
-        height: 200px;
+        height: 195px;
         list-style: none;
         border: 1px solid rgba(0, 0, 0, .5);
         border-radius: 10px;
+        margin-bottom: 14px;
+        transition: all .3s;
+        &:hover {
+            background-color: rgba(0, 0, 0, .3);
+        }
+        &:active {
+            background-color: rgba(0, 0, 0, .4);
+        }
     }
     &__title {
         font-size: 34px;
@@ -78,7 +88,6 @@
     }
     &__piece {
         &-1 {
-            z-index: 1;
             position: absolute;
             box-sizing: border-box;
             padding: 12px 0 0 15px;
@@ -86,22 +95,12 @@
             left: 0;
             width: 80px;
             height: 66.5px;
-            &::before {
-                content: '';
-                z-index: -1;
-                position: absolute;
-                background: url('../imgs/puzzles/upper-left-puzzle.svg');
-                background-size: contain;
-                background-repeat: no-repeat;
-                opacity: .35;
-                top: 0px;
-                left: 0px;
-                right: 0;
-                bottom: 0;
-            }
+            background: url('../imgs/puzzles/upper-left-puzzle.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            filter: grayscale($grayscale);
         }
         &-2 {
-            z-index: 1;
             position: absolute;
             box-sizing: border-box;
             padding: 12px 0 0 25px;
@@ -109,48 +108,29 @@
             right: 0;
             width: 81px;
             height: 80px;
-            &::before {
-                content: '';
-                z-index: -1;
-                position: absolute;
-                background: url('../imgs/puzzles/upper-right-puzzle.svg');
-                background-size: contain;
-                background-repeat: no-repeat;
-                opacity: .35;
-                top: 0px;
-                left: 0px;
-                right: 0;
-                bottom: 0;
-            }
+            background: url('../imgs/puzzles/upper-right-puzzle.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            filter: grayscale($grayscale);
         }
         &-3 {
-            z-index: 2;
+            z-index: 1;
             position: absolute;
             box-sizing: border-box;
             padding: 33px 28px;
-            top: 4px;
+            top: 3.5px;
             left: 1px;
             right: 0;
             bottom: 0;
             margin: auto;
             width: 94px;
             height: 100px;
-            &::before {
-                content: '';
-                z-index: -1;
-                position: absolute;
-                background: url('../imgs/puzzles/center-puzzle.svg');
-                background-size: contain;
-                background-repeat: no-repeat;
-                opacity: .35;
-                top: 0px;
-                left: 0px;
-                right: 0;
-                bottom: 0;
-            }
+            background: url('../imgs/puzzles/center-puzzle.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            filter: grayscale($grayscale);
         }
         &-4 {
-            z-index: 1;
             position: absolute;
             box-sizing: border-box;
             padding: 35px 0 0 15px;
@@ -158,22 +138,12 @@
             left: 0;
             width: 79px;
             height: 83px;
-            &::before {
-                content: '';
-                z-index: -1;
-                position: absolute;
-                background: url('../imgs/puzzles/lower-left-puzzle.svg');
-                background-size: contain;
-                background-repeat: no-repeat;
-                opacity: .35;
-                top: 0px;
-                left: 0px;
-                right: 0;
-                bottom: 0;
-            }
+            background: url('../imgs/puzzles/lower-left-puzzle.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            filter: grayscale($grayscale);
         }
         &-5 {
-            z-index: 1;
             position: absolute;
             box-sizing: border-box;
             padding: 20px 0 0 25px;
@@ -182,22 +152,24 @@
             right: 1.5px;
             width: 80px;
             height: 67px;
-            &::before {
-                content: '';
-                z-index: -1;
-                position: absolute;
-                background: url('../imgs/puzzles/lower-right-puzzle.svg');
-                background-size: contain;
-                background-repeat: no-repeat;
-                opacity: .35;
-                top: 0px;
-                left: 0px;
-                right: 0;
-                bottom: 0;
-            }
+            background: url('../imgs/puzzles/lower-right-puzzle.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            filter: grayscale($grayscale);
         }
-        &_active::before{
-            opacity: 1;
+        &_active {
+            filter: grayscale(0);
         }
+    }
+    &::-webkit-scrollbar {
+        width: 14px;
+    }
+    &::-webkit-scrollbar-track {
+        background: rgba($color: #C4C4C4, $alpha: .5);
+        border-radius: 25px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, .3);
+        border-radius: 25px;
     }
 }

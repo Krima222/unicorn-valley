@@ -36,11 +36,11 @@
         width: 18px;
     }
     &::-webkit-scrollbar-track {
-        background: none;
+        background: rgba($color: #C4C4C4, $alpha: .5);
+        border-radius: 25px;
     }
     &::-webkit-scrollbar-thumb {
-        background-color: none;
+        background-color: rgba(0, 0, 0, .3);
         border-radius: 25px;
-        border: 1px solid #767B7E;
     }
 }
