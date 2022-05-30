@@ -18,6 +18,7 @@ const Homepage = () => {
     const [avatars, setAvatars] = useState([]);
     const [selectedAvatar, setSelectedAvatar] = useState(null);
     const [puzzles, setPuzzles] = useState([])
+    const [newNickname, setNewNickname] = useState(null);
 
     const getData = async (token) => {
         const res = await fetch('http://localhost:5000/userInfo', {
@@ -64,11 +65,12 @@ const Homepage = () => {
     }
 
     useEffect(() => {
-        getData(token)
-            .then(getPuzzles)
+        if (newNickname === null) {
+            getData(token).then(getPuzzles)
+        }
         getStatic('avatars', setAvatars)
         getStatic('courses', setCourses)
-    }, [])
+    }, [newNickname])
 
     useEffect(() => {
         if (selectedAvatar) {
@@ -83,7 +85,11 @@ const Homepage = () => {
             <Header/>
             <div className="homepage">
                 <div className="homepage-container">
-                    <UserInfo userData={userData} puzzles={puzzles}/>
+                    <UserInfo
+                        userData={userData}
+                        newNickname={newNickname}
+                        setNewNickname={setNewNickname}
+                        puzzles={puzzles}/>
                     <ProfileField>
                         <Routes>
                             <Route path='courses' element={<CourseList courses={courses}/>}/>
@@ -91,6 +97,8 @@ const Homepage = () => {
                                                                 avatars={avatars}
                                                                 selectedAvatar={selectedAvatar}
                                                                 setSelectedAvatar={setSelectedAvatar}
+                                                                newNickname={newNickname}
+                                                                setNewNickname={setNewNickname}
                                                                 token={token}/>
                                                             }
                             />

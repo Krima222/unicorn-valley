@@ -21,6 +21,12 @@ const createDefaultPuzzles = (puzzles) => {
     }))
 }
 
+const updatePuzzleItem = (user, puzzleName, itemName, counted) => {
+    const desiredPuzzle = user.puzzles.find(({name}) => name === puzzleName)
+    const desiredItem = desiredPuzzle.puzzle.find(({name}) => name === itemName)
+    desiredItem.counted = counted
+}
+
 export const registrate = async (req, res) => {
     try {
         const errors = validationResult(req)
@@ -91,16 +97,9 @@ export const updatePuzzle = async (req, res) => {
         const {id, puzzle} = req.query
         const {name, counted} = req.body
         const user = await User.findById(id)
-        const puzzles = user.puzzles.map(item => {
-            if (item.name === puzzle) {
-                return item.puzzle.map(el => {
-                    if (el.name === name) {
-                        return {...el, counted}
-                    } else return el
-                })
-            } else return item
-        })
-        await User.findByIdAndUpdate(id, {puzzles})
+        updatePuzzleItem(user, puzzle, name, counted)
+        await user.save()
+        res.send(JSON.stringify({title: 'Пазл успешно изменён', data: user.puzzles}))
     } catch (e) {
         res.send(JSON.stringify({title: 'Дэнис, ошибка!!', message: e.message}))
     }
@@ -148,32 +147,45 @@ export const changeUserInfo = async (req, res) => {
             return res.status(403).json({message: 'Пользователь не авторизован'})
         }
         const {id} = jwt.verify(token, secret)
-        const {prevPassword, newPassword, newAvatar} = req.body
-        if (newAvatar && prevPassword) {
-            const {password} = await User.findById(id)
-            const validingPassword = bcrypt.compareSync(prevPassword, password)
-            if (!validingPassword) {
-                return res.status(400).json({title: 'error', message: `Введён неверный пароль`})
+        const {prevPassword, newPassword, newAvatar, newNickname} = req.body
+
+        const newData = {}
+
+        if (newNickname) {
+            const candidate = await User.findOne({nickname: newNickname})
+            if (candidate) {
+                return res.status(400).json({title: 'error', message: 'Пользователь с таким никнеймом уже существует'})
             }
-            const hashPassword = bcrypt.hashSync(newPassword, 7);
-            User.findByIdAndUpdate(id, {avatar: newAvatar, password: hashPassword}, () => {
-                res.send(JSON.stringify({title: 'success', message: 'Данные успешно изменены'}))
-            })
-        } else if (newAvatar) {
-            User.findByIdAndUpdate(id, {avatar: newAvatar}, () => {
-                res.send(JSON.stringify({title: 'success', message: 'Аватар успешно изменён'}))
-            })
-        } else if (prevPassword) {
-            const {password} = await User.findById(id)
-            const validingPassword = bcrypt.compareSync(prevPassword, password)
-            if (!validingPassword) {
-                return res.status(400).json({title: 'error', message: `Введён неверный пароль`})
-            }
-            const hashPassword = bcrypt.hashSync(newPassword, 7);
-            User.findByIdAndUpdate(id, {password: hashPassword}, () => {
-                res.send(JSON.stringify({title: 'Success', message: 'Пороль успешно изменён'}))
-            })
+            newData.nickname = newNickname
         }
+
+        if (prevPassword && newPassword) {
+            const {password} = await User.findById(id)
+            const validingPassword = bcrypt.compareSync(prevPassword, password)
+            if (!validingPassword) {
+                return res.status(400).json({title: 'error', message: `Введён неверный пароль`})
+            }
+            newData.password = bcrypt.hashSync(newPassword, 7)
+        }
+
+        if (newAvatar) {
+            newData.avatar = newAvatar
+        }
+
+        User.findByIdAndUpdate(id, newData, () => {
+            if (newData.password && newData.avatar || newData.password && newData.nickname || newData.avatar && newData.nickname) {
+                return res.send(JSON.stringify({title: 'success', message: 'Данные успешно изменены'}))
+            }
+            if (newData.nickname) {
+                return res.send(JSON.stringify({title: 'Success', message: 'Никнейм успешно изменён'}))
+            }
+            if (newData.password) {
+                return res.send(JSON.stringify({title: 'Success', message: 'Пороль успешно изменён'}))
+            }
+            if (newData.avatar) {
+                return res.send(JSON.stringify({title: 'success', message: 'Аватар успешно изменён'}))
+            }
+        })
     } catch (e) {
         res.send(JSON.stringify({title: 'error', message: e.message}))
     }
