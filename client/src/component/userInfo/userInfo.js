@@ -3,11 +3,6 @@ import { useState, useRef, useEffect } from 'react'
 import './userInfo.scss'
 
 import pencil from '../imgs/pencil.svg'
-import center from '../imgs/puzzles/center-puzzle.svg'
-import lowerLeft from '../imgs/puzzles/lower-left-puzzle.svg'
-import lowerRight from '../imgs/puzzles/lower-right-puzzle.svg'
-import upperLeft from '../imgs/puzzles/upper-left-puzzle.svg'
-import upperRight from '../imgs/puzzles/upper-right-puzzle.svg'
 
 const UserInfo = ({userData: {nickname, avatar}, newNickname, setNewNickname, puzzles}) => {
 
@@ -32,17 +27,17 @@ const UserInfo = ({userData: {nickname, avatar}, newNickname, setNewNickname, pu
     }, [typing])
 
     const puzzleList = (arr) => {
-        return arr.map(({name, puzzle}) => {
-            const piecesList = puzzle.map(({img, counted, name}, i) => {
-                const style = counted ? 'puzzle__piece_active' : null
+        return arr.map(({name, puzzle, _id}) => {
+            const piecesList = puzzle.map(({img, counted, name, _id}, i) => {
+                const style = counted ? 'puzzle__piece_active' : ''
                 return (
-                    <div className={`puzzle__piece-${i + 1} ${style}`}>
+                    <div key={_id} className={`puzzle__piece-${i + 1} ${style}`}>
                         <img className="puzzle__icon" src={img} alt={name}/>
                     </div>
                 )
             })
             return (
-                <li className="puzzle__item">
+                <li key={_id} className="puzzle__item">
                     <h2 className="puzzle__title">{name}</h2>
                     <div className="puzzle__list">{piecesList}</div>
                 </li>
