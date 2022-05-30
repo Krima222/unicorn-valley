@@ -89,7 +89,8 @@ const ProfileSettings = ({avatars, selectedAvatar, setSelectedAvatar, newNicknam
                                 className="change-password__input"
                                 type="password"
                                 placeholder="Старый пароль"
-                                name="prevPassword"/>
+                                name="prevPassword"
+                                autocomplete="new-password"/>
                             <Field
                                 className="change-password__input"
                                 type="password"

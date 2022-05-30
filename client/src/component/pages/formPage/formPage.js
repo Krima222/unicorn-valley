@@ -111,7 +111,7 @@ const FormPage = () => {
                         resetForm: formik.resetForm
                     }]}/>
                     <button type="submit" className="form-form__button">
-                        {pathname === '/form/login' ? 'Войти' : 'Зарегестрироваться'}
+                        {pathname === '/form/login' ? 'Войти' : 'Зарегистрироваться'}
                     </button>
                     <div className="form-form__links">
                         <a href="https://www.youtube.com/"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
