@@ -9,6 +9,7 @@ import ProfileSettings from '../../profileSettings/profileSettings'
 
 import './homePage.scss';
 
+
 const Homepage = () => {
     const [courses, setCourses] = useState([]);
     const [userData, setUserData] = useState({});
@@ -16,6 +17,7 @@ const Homepage = () => {
     const [{token}] = useCookies(['token']);
     const [avatars, setAvatars] = useState([]);
     const [selectedAvatar, setSelectedAvatar] = useState(null);
+    const [puzzles, setPuzzles] = useState([])
 
     const getData = async (token) => {
         const res = await fetch('http://localhost:5000/userInfo', {
@@ -23,12 +25,33 @@ const Homepage = () => {
                 Authorization: `Bearer ${token}`
             }
         })
-        const {nickname, game, avatar, message} = await res.json()
+        const {nickname, game, avatar, message, puzzles} = await res.json()
         if (!res.ok) {
             return console.log(message)
         }
         setUserData({nickname, avatar})
         setGame(game)
+        return puzzles
+    }
+
+    const mergePuzzles = (publicPuzzles, userPuzzles) => {
+        publicPuzzles.forEach(puzzle => {
+            const puzzleBox = userPuzzles.find(({name}) => name === puzzle.name)
+            puzzle.puzzle.forEach(item => {
+                const puzzlePiece = puzzleBox.puzzle.find(({name}) => name === item.name)
+                item.counted = puzzlePiece.counted
+            })
+        });
+        return publicPuzzles
+    }
+
+    const getPuzzles = async (userPuzzles) => {
+        const res = await fetch('http://localhost:5000/puzzles')
+        const data = await res.json()
+        if (!res.ok) {
+            return console.log(data.message)
+        }
+        setPuzzles(mergePuzzles(data, userPuzzles))
     }
 
     const getStatic = async (type, setState) => {
@@ -42,6 +65,7 @@ const Homepage = () => {
 
     useEffect(() => {
         getData(token)
+            .then(getPuzzles)
         getStatic('avatars', setAvatars)
         getStatic('courses', setCourses)
     }, [])
@@ -59,7 +83,7 @@ const Homepage = () => {
             <Header/>
             <div className="homepage">
                 <div className="homepage-container">
-                    <UserInfo userData={userData}/>
+                    <UserInfo userData={userData} puzzles={puzzles}/>
                     <ProfileField>
                         <Routes>
                             <Route path='courses' element={<CourseList courses={courses}/>}/>

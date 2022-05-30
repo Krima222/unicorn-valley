@@ -1,9 +1,13 @@
+import { useEffect, useState } from 'react';
 
+const TrajectoryPuzzle = (props) => {
+    
 
-const trajectoryPuzzle = () => {
     return (
         <>
-            
+
         </>
     )
 }
+
+export default TrajectoryPuzzle;

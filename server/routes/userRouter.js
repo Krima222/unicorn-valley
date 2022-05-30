@@ -1,4 +1,4 @@
-import express from "express"
+import express from 'express'
 
 import { registrate, login, getGameData, updateGameData, autificationUser, userInfo, changeUserInfo, updatePuzzle } from '../controllers/userController.js';
 import { check } from 'express-validator'
