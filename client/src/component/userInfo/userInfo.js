@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import puzzlePieces from '../imgs/puzzles'
 
 import './userInfo.scss'
 
@@ -35,10 +36,11 @@ const UserInfo = ({userData: {nickname, avatar}, newNickname, setNewNickname, pu
 
     const puzzleList = (arr) => {
         return arr.map(({name, puzzle, _id}) => {
-            const piecesList = puzzle.map(({img, counted, name, _id}, i) => {
-                const style = counted ? 'puzzle__piece_active' : ''
+            const piecesList = puzzle.map(({img, counted, countedColor, name, _id}, i) => {
+                const PuzzleSVG = puzzlePieces[i]
                 return (
-                    <div key={_id} className={`puzzle__piece-${i + 1} ${style}`}>
+                    <div key={_id} className={`puzzle__piece-${i + 1}`}>
+                        <PuzzleSVG className="puzzle__svg" fill={counted ? countedColor : '#DCDCE2'}/>
                         <img className="puzzle__icon" src={img} alt={name}/>
                     </div>
                 )
