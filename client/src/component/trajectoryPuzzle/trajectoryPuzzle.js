@@ -1,14 +1,25 @@
-import { useState } from 'react';
+import { useState } from 'react'
+
+import puzzlePieces from '../imgs/puzzles'
+
 import './trajectoryPuzzle.scss'
 
 const TrajectoryPuzzle = ({puzzle}) => {
     const [description, setDescription] = useState('')
+    const [activePiece, setActivePiece] = useState(null)
+
+    const choosePiece = (id, description) => {
+        setActivePiece(id)
+        setDescription(description)
+    }
 
     const puzzleList = (arr) => {
-        return arr.puzzle.map(({description, img, name, counted}, i) => {
-            const style = counted ? 'trajectory-puzzle__piece_active' : ''
+        return arr.puzzle.map(({description, img, name, counted, countedColor, _id}, i) => {
+            const active = _id === activePiece ? 'trajectory-puzzle__piece_active' : ''
+            const PuzzleSVG = puzzlePieces[i]
             return (
-                <div className={`trajectory-puzzle__piece-${i + 1} ${style}`} onClick={() => setDescription(description)}>
+                <div key={_id} className={`trajectory-puzzle__piece-${i + 1} ${active}`} onClick={() => choosePiece(_id, description)}>
+                    <PuzzleSVG className="trajectory-puzzle__svg" fill={counted ? countedColor : '#DCDCE2'}/>
                     <img className="trajectory-puzzle__icon" src={img} alt={name}/>
                 </div>
             )
