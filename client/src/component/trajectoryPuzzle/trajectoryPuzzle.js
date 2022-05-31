@@ -1,5 +1,4 @@
-import { useState } from 'react'
-
+import { useState, useRef } from 'react'
 import puzzlePieces from '../imgs/puzzles'
 
 import './trajectoryPuzzle.scss'
@@ -7,10 +6,15 @@ import './trajectoryPuzzle.scss'
 const TrajectoryPuzzle = ({puzzle}) => {
     const [description, setDescription] = useState('')
     const [activePiece, setActivePiece] = useState(null)
+    const descriptionEl = useRef()
 
     const choosePiece = (id, description) => {
         setActivePiece(id)
-        setDescription(description)
+        descriptionEl.current.classList.add('trajectory-puzzle__description_hidden')
+        setTimeout(() => {
+            setDescription(description)
+            descriptionEl.current.classList.remove('trajectory-puzzle__description_hidden')
+        }, 200)
     }
 
     const puzzleList = (arr) => {
@@ -32,7 +36,7 @@ const TrajectoryPuzzle = ({puzzle}) => {
             <div className="trajectory-puzzle__field">
                 {puzzle.puzzle ? puzzleList(puzzle) : null}
             </div>
-            <p className="trajectory-puzzle__description">{description}</p>
+            <p className="trajectory-puzzle__description" ref={descriptionEl}>{description}</p>
         </div>
     )
 }

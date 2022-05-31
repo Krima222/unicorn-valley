@@ -15,6 +15,11 @@
         color: rgba($color: #000000, $alpha: .85);
         overflow: auto;
         overflow-wrap: break-word;
+        transition: all .2s;
+        &_hidden {
+            transform: translateY(2px);
+            opacity: 0;
+        }
         &::-webkit-scrollbar {
             width: 18px;
         }
