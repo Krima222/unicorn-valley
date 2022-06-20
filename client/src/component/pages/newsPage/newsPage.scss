@@ -1,0 +1,26 @@
+.news-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    padding: 75px 15px 15px 15px;
+    margin-top: 50px;
+    .create-news {
+        margin: 0 0 0 auto;
+        padding: 9px 50px 9px 50px;
+        border: 0;
+        border-radius: 10px;
+        font-size: 12px;
+        text-decoration: none;
+        color: black;
+        background: red;
+        // background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(226,209,195,1) 100%);
+        transition: all .3s;
+        &:hover {
+            filter: brightness(85%);
+        }
+        &:active {
+            filter: brightness(75%);
+        }
+    }
+}
+

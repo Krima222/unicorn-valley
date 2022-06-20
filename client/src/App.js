@@ -6,6 +6,8 @@ import Registration from './component/registration/registration';
 import Login from './component/login/login';
 import Homepage from './component/pages/homePage/homePage';
 import idContext from './component/idContext/idContext';
+import NewPage from './component/pages/newsPage/newsPage';
+import CreateNews from './component/pages/createNews/createNews';
 import './app.scss';
 
 function App() {
@@ -44,6 +46,8 @@ function App() {
                     <>
                         <Route path='/' element={id ? <Navigate to="/homepage/courses"/> : <Navigate to="/form/login"/>}/>
                         <Route path='/homepage/*' element={id ? <Homepage/> : <Navigate to="/form/login"/>}/>
+                        <Route path='news' element={<NewPage/>}/>
+                        <Route path='create-news' element={<CreateNews/>}/>
                     </> : null}
                 </Routes>
         </Router>

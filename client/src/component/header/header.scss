@@ -41,6 +41,8 @@
         background: rgb(255,255,255);
         background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(226,209,195,1) 100%);
         transition: all .3s;
+        text-decoration: none;
+        color: black;
         &:hover {
             filter: brightness(85%);
         }

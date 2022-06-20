@@ -13,6 +13,7 @@ const app = express()
 const db = 'mongodb+srv://test:test1q2w@cluster0.i2rzl.mongodb.net/test-db?retryWrites=true&w=majority'
 const _dir = dirname(fileURLToPath(import.meta.url))
 
+
 mongoose.connect(db, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => {
         console.log('Connect to mongoDB')

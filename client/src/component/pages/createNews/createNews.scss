@@ -1,0 +1,26 @@
+.blocks-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 20px;
+    display: flex;
+    padding: 75px 15px 15px 15px;
+    .constructor {
+        margin: 0 auto;
+        margin-top: 60px;
+        &__block {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            border: 1px solid black;
+            &_piece {
+                margin: 0 40px;
+                padding: 10px 30px;
+                border: 1px solid black;
+            }
+        }
+        &__field {
+
+        }
+
+    }
+}

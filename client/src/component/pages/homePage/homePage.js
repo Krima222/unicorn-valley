@@ -8,6 +8,7 @@ import CourseList from '../../courseList/courseList'
 import ProfileSettings from '../../profileSettings/profileSettings'
 import TrajectoryPuzzle from '../../trajectoryPuzzle/trajectoryPuzzle'
 
+
 import './homePage.scss';
 
 
