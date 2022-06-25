@@ -5,17 +5,34 @@
     display: flex;
     padding: 75px 15px 15px 15px;
     .constructor {
+        position: relative;
         margin: 0 auto;
         margin-top: 60px;
+        width: 100%;
+        box-sizing: border-box;
         &__block {
             display: flex;
             justify-content: space-around;
             padding: 10px;
             border: 1px solid black;
-            &_piece {
-                margin: 0 40px;
+            &-piece {
+                cursor: pointer;
                 padding: 10px 30px;
                 border: 1px solid black;
+            }
+            &-text {
+                min-height: 50px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            &-title {
+                min-height: 50px;
+                width: 100%;
+                box-sizing: border-box;
+                background: red;
+                margin: 0;
+                font-size: 30px;
+                font-weight: bold;
             }
         }
         &__field {
