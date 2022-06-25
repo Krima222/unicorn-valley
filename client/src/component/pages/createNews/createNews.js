@@ -1,6 +1,8 @@
 import { useState, useRef} from 'react'
 
 import Header from '../../header/header'
+import DragImg from './dragImg/dragImg'
+
 import './createNews.scss'
 
 const Text = () => {
@@ -58,8 +60,8 @@ const CreateNews = () => {
                 <div className="constructor">
                     <div className="constructor__block">
                         <div className="constructor__block-piece"  onMouseDown={(event) => onMousedown(event, Title)}>Заголовок</div>
-                        <div className="constructor__block-piece" onMouseDown={(event) => onMousedown(event, Text)} >Текст</div>
-                        <div className="constructor__block-piece">Картинка</div>
+                        <div className="constructor__block-piece" onMouseDown={(event) => onMousedown(event, Text)}>Текст</div>
+                        <div className="constructor__block-piece" onMouseDown={(event) => onMousedown(event, DragImg)}>Картинка</div>
                         <div className="constructor__block-piece">Цитата</div>
                     </div>
                     <div ref={field} className="constructor__field">
